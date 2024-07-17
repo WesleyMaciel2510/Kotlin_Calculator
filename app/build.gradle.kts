@@ -64,7 +64,12 @@ dependencies {
     implementation("androidx.compose.material:material:1.6.8")
     implementation ("androidx.compose.ui:ui:1.0.0")
     implementation ("androidx.compose.foundation:foundation:1.0.0")
+    implementation ("androidx.activity:activity-compose:1.9.0")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0-alpha03")
+    implementation(libs.androidx.media3.common)
     implementation(libs.androidx.compose.material)
+    implementation ("net.objecthunter:exp4j:0.4.8")
+    implementation ("com.google.accompanist:accompanist-flowlayout:0.20.2")
     // =================================================
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

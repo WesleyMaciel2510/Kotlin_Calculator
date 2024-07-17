@@ -10,9 +10,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import android.os.Bundle
+//import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.calculatorapp.screens.App
 import com.example.calculatorapp.ui.theme.CalculatorAppTheme
 import com.example.calculatorapp.ui.theme.DarkColorScheme
@@ -40,6 +43,14 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun AppPreview() {
+    CalculatorAppTheme {
+        App()
     }
 }
 
