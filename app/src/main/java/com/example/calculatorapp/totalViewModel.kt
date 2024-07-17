@@ -49,8 +49,11 @@ class TotalViewModel : ViewModel() {
     private fun evaluateTotal() {
         Log.d("calculate", "evaluateTotal called")
 
+        // Preprocess the input to handle percentage operators
+        val preprocessedInput = preprocessInput(_total.value)
+
         try {
-            val result = ExpressionBuilder(_total.value).build().evaluate()
+            val result = ExpressionBuilder(preprocessedInput).build().evaluate()
 
             // Format the result to remove ".0" for integers
             val formattedResult = if (result % 1 == 0.0) {
@@ -66,6 +69,26 @@ class TotalViewModel : ViewModel() {
             _total.value = "Error"
             totalIsUsed = false
         }
+    }
+
+    private fun preprocessInput(input: String): String {
+        // Handle percentages
+        val percentageRegex = Regex("""(\d+(\.\d+)?)%(\d+(\.\d+)?)""")
+        var preprocessedInput = input
+
+        // Convert percentages to a form suitable for ExpressionBuilder
+        percentageRegex.findAll(input).forEach {
+            val fullMatch = it.value
+            val value = it.groupValues[1]
+            val operand = it.groupValues[3]
+            val replacement = "($value*0.01*$operand)"
+            preprocessedInput = preprocessedInput.replace(fullMatch, replacement)
+        }
+
+        // Remove commas and unnecessary spaces
+        preprocessedInput = preprocessedInput.replace(",", "").replace("\\s+".toRegex(), "")
+
+        return preprocessedInput
     }
 
     private fun handleParentheses() {
