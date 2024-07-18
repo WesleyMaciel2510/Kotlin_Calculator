@@ -62,7 +62,7 @@ class TotalViewModel : ViewModel() {
                 result.toString()
             }
             _total.value = formattedResult
-            Log.d("calculate", "TOTAL = ${_total.value}")
+            Log.d("calculate", "evaluateTotal = ${_total.value}")
 
             totalIsUsed = true
         } catch (e: Exception) {
@@ -85,10 +85,24 @@ class TotalViewModel : ViewModel() {
             preprocessedInput = preprocessedInput.replace(fullMatch, replacement)
         }
 
-        // Remove commas and unnecessary spaces
-        preprocessedInput = preprocessedInput.replace(",", "").replace("\\s+".toRegex(), "")
+        // Convert numbers with commas to a format suitable for ExpressionBuilder
+        val decimalRegex = Regex("""\d+,\d+""")
+        decimalRegex.findAll(preprocessedInput).forEach {
+            val fullMatch = it.value
+            val replacement = fullMatch.replace(",", ".")
+            preprocessedInput = preprocessedInput.replace(fullMatch, replacement)
+        }
+
+        // Remove unnecessary spaces again (ensure spaces are properly removed)
+        preprocessedInput = removeSpaces(preprocessedInput)
+
+        Log.d("calculate", "TOTAL = ${preprocessedInput}")
 
         return preprocessedInput
+    }
+
+    private fun removeSpaces(input: String): String {
+        return input.replace("\\s+".toRegex(), "")
     }
 
     private fun handleParentheses() {
